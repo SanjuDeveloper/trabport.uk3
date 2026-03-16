@@ -114,35 +114,79 @@ if (isset($_POST['add_expense'])) {
             <thead class="table-dark">
             <tr>
                 <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">City</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">Route</th>
+                <th scope="col">Booking Date</th>
+                <th scope="col">Rate</th>
+                <th scope="col">Kuntal</th>
+                <th scope="col">Bhada</th>
+                <th scope="col">Status</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Alice Johnson</td>
-                <td>alice@example.com</td>
-                <td>New York</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Bob Smith</td>
-                <td>bob@example.com</td>
-                <td>Los Angeles</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Charlie Brown</td>
-                <td>charlie@example.com</td>
-                <td>Chicago</td>
-            </tr>
+              <?php
+              require_once 'bhatttransportdb.php';
+              //Calling static method for geting bookings
+              $bookings = bhatttransportdb::getBookings("SELECT * FROM bookings");
+              foreach($bookings as $booking) { ?>
+                  <tr>
+                      <th scope='row'><?php echo $booking['id']; ?></th>
+                      <td><?php echo $booking['customerName']; ?></td>
+                      <td><?php echo $booking['route']; ?></td>
+                      <td><?php echo $booking['rate']; ?></td>
+                      <td><?php echo $booking['kuntal']; ?></td>
+                      <td><?php echo $booking['bhada']; ?></td>
+                      <td><?php echo $booking['bookingDate']; ?></td>
+                      <td><input  class="btn btn-success" type="button" value="<?php echo $booking['status']; ?>"></td>
+                  </tr>
+              <?php } ?>
             </tbody>
         </table>
         </div>
 </div>
 
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $("#createBookingForm").on("submit", function(e) {
+      e.preventDefault();
+      $.ajax({
+        url: "config.php",
+        type: "POST",
+        data: $(this).serialize(),
+        success: function(response) {
+          if(response.trim() === "success") {
+            alert("Booking created successfully!");
+            // Redirect to admin dashboard or another page
+            window.location.href = "dashboard.php"; // Change to your dashboard page
+          } else {
+            alert("Error creating booking: " + response);
+          }
+        }
+      });
+    });
+
+$(document).ready(function(){
+    $("#logoutLink").click(function(){
+        $.ajax({
+            url: "config.php",
+            type: "GET",
+            data: { logout: "TRUE" },
+            success: function(response){
+                alert("Logged out successfully!");
+                window.location.href = "login.php"; // Redirect to login page after logout
+            },
+            error: function(){
+                alert("Error sending data");
+            }
+        });
+    });
+});
+
+  </script>
+</body>
+</html>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

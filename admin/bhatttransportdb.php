@@ -46,6 +46,19 @@ class bhatttransportdb {
         }
     }
 
+    // Insert data into table
+    public static function getBookings($query) {
+        try{
+            $stmt = (new self())->getConnection()->prepare($query);
+            $stmt->execute();
+            return $stmt->fetchAll();
+
+        } catch (PDOException $e) {
+            echo "Connection failed: " . $e->getMessage();
+        }
+        }
+
+    
     // Close connection
     public function __destruct() {
         $this->pdo = null;
