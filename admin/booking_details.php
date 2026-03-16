@@ -3,44 +3,10 @@ if(! isset($_SESSION['user'])) {
    //   header("Location: login.php");
   } // Check if session is created, if not redirect to login
 
-// db connection
-/*
-$conn = new mysqli("localhost", "root", "", "transportdb");
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-
-// Handle booking form
-if (isset($_POST['create_booking'])) {
-    $name   = $_POST['customer_name'];
-    $route  = $_POST['route'];
-    $date   = $_POST['booking_date'];
-    $status = $_POST['status'];
-
-    $stmt = $conn->prepare("INSERT INTO bookings (customer_name, route, booking_date, status) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssss", $name, $route, $date, $status);
-    $stmt->execute();
-    echo "<p>Booking created successfully!</p>";
-    $stmt->close();
-}
-
-// Handle expense form
-if (isset($_POST['add_expense'])) {
-    $route   = $_POST['route'];
-    $type    = $_POST['expense_type'];
-    $amount  = $_POST['amount'];
-    $date    = $_POST['expense_date'];
-
-    $stmt = $conn->prepare("INSERT INTO expenses (route, expense_type, amount, expense_date) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssds", $route, $type, $amount, $date);
-    $stmt->execute();
-    echo "<p>Expense added successfully!</p>";
-    $stmt->close();
-}
-
-*/
-?>
-
+   require_once 'bhatttransportdb.php';
+              //Calling static method for geting bookings
+              $bookings = bhatttransportdb::getBookings("SELECT * FROM bookings WHERE id=".$_GET['id']);
+ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -80,69 +46,53 @@ if (isset($_POST['add_expense'])) {
         <form class="row g-3" id="createBookingForm">
             <div class="col-md-6">
             <label for="inputName" class="form-label">Customer Name:</label>
-            <input type="text" class="form-control" name="customerName" id="customerName" placeholder="Enter your name">
+            <input type="text" class="form-control" name="customerName" id="customerName" placeholder="Enter your name" value="<?php echo $bookings[0]['customerName']; ?>">
             </div>
             <div class="col-md-6">
             <label for="route" class="form-label">Route:</label>
-            <input type="text" class="form-control" name="route" id="route" placeholder="Enter your route">
+            <input type="text" class="form-control" name="route" id="route" placeholder="Enter your route" value="<?php echo $bookings[0]['route']; ?>">
             </div>
             <div class="col-md-6">
             <label for="bookingDate" class="form-label">Booking Date:</label>
-            <input type="text" class="form-control" name="bookingDate" id="bookingDate" placeholder="Enter booking date">
+            <input type="text" class="form-control" name="bookingDate" id="bookingDate" placeholder="Enter booking date" value="<?php echo $bookings[0]['bookingDate']; ?>">
             </div>
             <div class="col-md-6">
             <label for="inputCity" class="form-label">Rate</label>
-            <input type="text" class="form-control" name="rate" id="rate" placeholder="70">
+            <input type="text" class="form-control" name="rate" id="rate" placeholder="70" value="<?php echo $bookings[0]['rate']; ?>">
             </div>
             <div class="col-md-6">
             <label for="kuntal" class="form-label">Kuntal</label>
-            <input type="text" class="form-control" name="kuntal" id="kuntal" placeholder="150">
+            <input type="text" class="form-control" name="kuntal" id="kuntal" placeholder="150" value="<?php echo $bookings[0]['kuntal']; ?>">
             </div>
             <div class="col-md-6">
             <label for="bhada" class="form-label">Bhada</label>
-            <input type="text" class="form-control" name="bhada" id="bhada" placeholder="10500">
+            <input type="text" class="form-control" name="bhada" id="bhada" placeholder="10500" value="<?php echo $bookings[0]['bhada']; ?>">
             </div>
+             <div class="col-md-6">
+            <label for="Driver's expense" class="form-label">Driver's expense</label>
+            <input type="text" class="form-control" name="Driver's expense" id="Driver's expense" placeholder="Enter value here" value="">
+            </div>
+             <div class="col-md-6">
+            <label for=" Vehicle  expense" class="form-label"> Vehicle  expense</label>
+            <input type="text" class="form-control" name=" Vehicle  expense" id=" Vehicle  expense" placeholder="enter value here" value="">
+            </div>
+             <div class="col-md-6">
+            <label for=" Payment type" class="form-label">Payment type</label>
+            <select class="form-select" name="Payment type" id="Payment type">
+              <option value="Cash">Cash</option>
+              <option value="Credit Card">Credit Card</option>
+              <option value="Mobile Payment">Mobile Payment</option>
+            </select>
+            </div>
+         
+
             <div class="col-12">
               <input type="hidden" value="CreateBooking" name="booking" id="booking">  
             <button type="submit" class="btn btn-primary">Create</button>
             </div>
         </form>
 
-        <!-- Table Section -->
-        <h2 class="mt-5 mb-4">Registered Users</h2>
-        <table class="table table-striped table-hover">
-            <thead class="table-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Customer Name</th>
-                <th scope="col">Route</th>
-                <th scope="col">Booking Date</th>
-                <th scope="col">Rate</th>
-                <th scope="col">Kuntal</th>
-                <th scope="col">Bhada</th>
-                <th scope="col">Status</th>
-            </tr>
-            </thead>
-            <tbody>
-              <?php
-              require_once 'bhatttransportdb.php';
-              //Calling static method for geting bookings
-              $bookings = bhatttransportdb::getBookings("SELECT * FROM bookings");
-              foreach($bookings as $booking) { ?>
-                  <tr>
-                      <th scope='row'><?php echo $booking['id']; ?></th>
-                      <td><a href="booking_details.php?id=<?php echo $booking['id']; ?>"><?php echo $booking['customerName']; ?></a></td>
-                      <td><?php echo $booking['route']; ?></td>
-                      <td><?php echo $booking['rate']; ?></td>
-                      <td><?php echo $booking['kuntal']; ?></td>
-                      <td><?php echo $booking['bhada']; ?></td>
-                      <td><?php echo $booking['bookingDate']; ?></td>
-                      <td><input  class="btn btn-success" type="button" value="<?php echo $booking['status']; ?>"></td>
-                      
-                  </tr>
-              <?php } ?>
-            </tbody>
-        </table>
+       
         </div>
 </div>
 
