@@ -46,6 +46,31 @@ class bhatttransportdb {
         }
     }
 
+// Insert data into table
+    public function createBookingDetails($bookingId, $total_rent, $rent_status, $payment_type, $total_driver_expense, $total_vehicle_expense, $driver_expense_type, $vehicle_expense_type, $goods_owner, $loading_time, $unloading_time, $seller_name) {
+        try{
+            $stmt = $this->pdo->prepare("INSERT INTO booking_detail (bookingId, total_rent, rent_status, payment_type, total_driver_expense, total_vehicle_expense, driver_expense_type, vehicle_expense_type, goods_owner, loading_time, unloading_time, seller_name) VALUES (:bookingId, :total_rent, :rent_status, :payment_type, :total_driver_expense, :total_vehicle_expense, :driver_expense_type, :vehicle_expense_type, :goods_owner, :loading_time, :unloading_time, :seller_name)");
+            $stmt->execute([
+                ':bookingId' => $bookingId,
+                ':total_rent' => $total_rent,
+                ':rent_status' => $rent_status,
+                ':payment_type' => $payment_type,
+                ':total_driver_expense' => $total_driver_expense,
+                ':total_vehicle_expense' => $total_vehicle_expense,
+                ':driver_expense_type' => $driver_expense_type,
+                ':vehicle_expense_type' => $vehicle_expense_type,
+                ':goods_owner' => $goods_owner,
+                ':loading_time' => $loading_time,
+                ':unloading_time' => $unloading_time,
+                ':seller_name' => $seller_name
+            ]);
+            return $this->pdo->lastInsertId();
+        }
+        catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+
     // Insert data into table
     public static function getBookings($query) {
         try{
@@ -54,14 +79,12 @@ class bhatttransportdb {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
            // return $stmt->fetchAll();
+    } catch (PDOException $e) {
+        echo "Error: " . $e->getMessage();
+    }
+}
 
-        } catch (PDOException $e) {
-            echo "Connection failed: " . $e->getMessage();
-        }
-        }
-
-    
-    // Close connection
+// Close connection
     public function __destruct() {
         $this->pdo = null;
     }

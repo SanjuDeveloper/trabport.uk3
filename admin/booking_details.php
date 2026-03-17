@@ -43,7 +43,7 @@ if(! isset($_SESSION['user'])) {
         <div class="container mt-5">
         <!-- Form Section -->
         <h2 class="mb-4">Create Booking</h2>
-        <form class="row g-3" id="createBookingForm">
+        <form class="row g-3" >
             <div class="col-md-6">
             <label for="inputName" class="form-label">Customer Name:</label>
             <input type="text" class="form-control" name="customerName" id="customerName" placeholder="Enter your name" value="<?php echo $bookings[0]['customerName']; ?>">
@@ -92,91 +92,49 @@ if(! isset($_SESSION['user'])) {
             </div>
         </form>
 
+
+        <!-- Table Section -->
+        <h2 class="mt-5 mb-4">Bookings</h2>
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">Route</th>
+                <th scope="col">Booking Date</th>
+                <th scope="col">Rate</th>
+                <th scope="col">Kuntal</th>
+                <th scope="col">Bhada</th>
+                <th scope="col">Status</th>
+            </tr>
+            </thead>
+            <tbody>
+              <?php
+              require_once 'bhatttransportdb.php';
+              //Calling static method for geting bookings
+              $bookings = bhatttransportdb::getBookings("SELECT * FROM bookings");
+              foreach($bookings as $booking) { ?>
+                  <tr>
+                      <th scope='row'><?php echo $booking['id']; ?></th>
+                      <td><a href="booking_details.php?id=<?php echo $booking['id']; ?>"><?php echo $booking['customerName']; ?></a></td>
+                      <td><?php echo $booking['route']; ?></td>
+                      <td><?php echo $booking['rate']; ?></td>
+                      <td><?php echo $booking['kuntal']; ?></td>
+                      <td><?php echo $booking['bhada']; ?></td>
+                      <td><?php echo $booking['bookingDate']; ?></td>
+                      <td><input  class="btn btn-success" type="button" value="<?php echo $booking['status']; ?>"></td>
+                      
+                  </tr>
+              <?php } ?>
+            </tbody>
+        </table>
        
         </div>
 </div>
-
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    $("#createBookingForm").on("submit", function(e) {
-      e.preventDefault();
-      $.ajax({
-        url: "config.php",
-        type: "POST",
-        data: $(this).serialize(),
-        success: function(response) {
-          if(response.trim() === "success") {
-            alert("Booking created successfully!");
-            // Redirect to admin dashboard or another page
-            window.location.href = "dashboard.php"; // Change to your dashboard page
-          } else {
-            alert("Error creating booking: " + response);
-          }
-        }
-      });
-    });
-
-$(document).ready(function(){
-    $("#logoutLink").click(function(){
-        $.ajax({
-            url: "config.php",
-            type: "GET",
-            data: { logout: "TRUE" },
-            success: function(response){
-                alert("Logged out successfully!");
-                window.location.href = "login.php"; // Redirect to login page after logout
-            },
-            error: function(){
-                alert("Error sending data");
-            }
-        });
-    });
-});
-
-  </script>
 </body>
 </html>
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script>
-    $("#createBookingForm").on("submit", function(e) {
-      e.preventDefault();
-      $.ajax({
-        url: "config.php",
-        type: "POST",
-        data: $(this).serialize(),
-        success: function(response) { 
-        if(response.trim() === "success") {
-            alert("Booking created successfully!");
-            // Redirect to admin dashboard or another page
-            window.location.href = "dashboard.php"; // Change to your dashboard page
-          } else {
-            alert("Error creating booking: " + response);
-          }
-        }
-      });
-    });
-
-$(document).ready(function(){
-    $("#logoutLink").click(function(){
-        $.ajax({
-            url: "config.php",
-            type: "GET",
-            data: { logout: "TRUE" },
-            success: function(response){
-                alert("Logged out successfully!");
-                window.location.href = "login.php"; // Redirect to login page after logout      
-            },
-            error: function(){
-                alert("Error sending data");
-            }
-        });
-    });
-});
-
-  </script>
 </body>
 </html>
