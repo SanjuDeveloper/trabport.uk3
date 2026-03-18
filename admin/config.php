@@ -23,7 +23,9 @@ if(isset($_REQUEST['AdminLogin']) && $_REQUEST['AdminLogin'] == 'ADMIN_LOGIN'){
 // Handle booking form
 if (isset($_POST['booking']) && $_POST['booking'] == 'CreateBooking') {
     //print_r($_REQUEST);
-    $name   = $_POST['customerName'];
+    $customerName   = $_POST['customerName'];
+    $driverName   = $_POST['driverName'];
+    $vehical_number  = $_POST['vehical_number'];
     $route  = $_POST['route'];
     $rate   = $_POST['rate'];
     $kuntal = $_POST['kuntal'];
@@ -41,14 +43,13 @@ if (isset($_POST['booking']) && $_POST['booking'] == 'CreateBooking') {
     $loading_time = $_POST['loading_time'];
     $unloading_time = $_POST['unloading_time'];
     $seller_name = $_POST['seller_name'];
-
-//////////////
-
-    $bookingID =  $createBooking = $db->createBooking($name, $route, $rate, $kuntal, $bhada, $date);
-    echo "bookingid: " . $bookingID;
+    $payment_receiver = $_POST['payment_receiver'];
+    $loading_unloading_status = $_POST['loading_unloading_status'];
+    
+    $bookingID =  $createBooking = $db->createBooking($customerName, $driverName, $vehical_number, $route, $rate, $kuntal, $bhada, $date);
     if ($bookingID != null) {
         // insert data in bookingdetails table.
-        $createBookingDetail = $db->createBookingDetails($bookingID, $rent, $status, $payment, $driver_expense, $vehicle_expense, $driver_expense_type, $vehicle_expense_type, $goods_owner, $loading_time, $unloading_time, $seller_name);
+        $createBookingDetail = $db->createBookingDetails($bookingID, $rent, $status, $payment,$driver_expense, $vehicle_expense, $driver_expense_type, $vehicle_expense_type, $goods_owner, $loading_time, $unloading_time, $seller_name, $payment_receiver, $loading_unloading_status);
         echo "success";
     }
 }

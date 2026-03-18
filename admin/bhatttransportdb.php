@@ -27,19 +27,21 @@ class bhatttransportdb {
     }
 
     // Insert data into table
-    public function createBooking($customerName, $route, $rate, $kuntal, $bhada, $bookingDate) {
+    public function createBooking($customerName, $driverName, $vehical_number, $route, $rate, $kuntal, $bhada, $bookingDate) {
         try{
-            $stmt = $this->pdo->prepare("INSERT INTO bookings (customerName, route, rate, kuntal, bhada, bookingDate) VALUES (:customerName, :route, :rate, :kuntal, :bhada, :bookingDate)");
+            $stmt = $this->pdo->prepare("INSERT INTO bookings (customerName, driverName, vehical_number, route, rate, kuntal, bhada, bookingDate) VALUES (:customerName, :driverName, :vehical_number, :route, :rate, :kuntal, :bhada, :bookingDate)");
             // Bind values
             $stmt->execute([
                 ':customerName' => $customerName,
+                ':driverName'   => $driverName,
+                ':vehical_number'=> $vehical_number,
                 ':route'        => $route,
                 ':rate'         => $rate,
                 ':kuntal'       => $kuntal,
                 ':bhada'        => $bhada,
                 ':bookingDate'  => $bookingDate
             ]);
-            return true;
+            return $this->pdo->lastInsertId();
         }
         catch (PDOException $e) {
             echo "Error: " . $e->getMessage();
@@ -47,9 +49,10 @@ class bhatttransportdb {
     }
 
 // Insert data into table
-    public function createBookingDetails($bookingId, $total_rent, $rent_status, $payment_type, $total_driver_expense, $total_vehicle_expense, $driver_expense_type, $vehicle_expense_type, $goods_owner, $loading_time, $unloading_time, $seller_name) {
+    public function createBookingDetails($bookingId, $total_rent, $rent_status, $payment_type, $total_driver_expense, $total_vehicle_expense, $driver_expense_type, $vehicle_expense_type, $goods_owner, $loading_time, $unloading_time, $seller_name, $payment_receiver, $loading_unloading_status) {
+
         try{
-            $stmt = $this->pdo->prepare("INSERT INTO booking_detail (bookingId, total_rent, rent_status, payment_type, total_driver_expense, total_vehicle_expense, driver_expense_type, vehicle_expense_type, goods_owner, loading_time, unloading_time, seller_name) VALUES (:bookingId, :total_rent, :rent_status, :payment_type, :total_driver_expense, :total_vehicle_expense, :driver_expense_type, :vehicle_expense_type, :goods_owner, :loading_time, :unloading_time, :seller_name)");
+            $stmt = $this->pdo->prepare("INSERT INTO booking_detail (bookingId, total_rent, rent_status, payment_type, total_driver_expense, total_vehicle_expense, driver_expense_type, vehicle_expense_type, goods_owner, loading_time, unloading_time, seller_name, payment_receiver, loading_unloading_status) VALUES (:bookingId, :total_rent, :rent_status, :payment_type, :total_driver_expense, :total_vehicle_expense, :driver_expense_type, :vehicle_expense_type, :goods_owner, :loading_time, :unloading_time, :seller_name, :payment_receiver, :loading_unloading_status)");
             $stmt->execute([
                 ':bookingId' => $bookingId,
                 ':total_rent' => $total_rent,
@@ -62,7 +65,9 @@ class bhatttransportdb {
                 ':goods_owner' => $goods_owner,
                 ':loading_time' => $loading_time,
                 ':unloading_time' => $unloading_time,
-                ':seller_name' => $seller_name
+                ':seller_name' => $seller_name,
+                ':payment_receiver' => $payment_receiver,
+                ':loading_unloading_status' => $loading_unloading_status
             ]);
             return $this->pdo->lastInsertId();
         }
