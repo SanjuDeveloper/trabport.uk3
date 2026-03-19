@@ -49,10 +49,10 @@ class bhatttransportdb {
     }
 
 // Insert data into table
-    public function createBookingDetails($bookingId, $total_rent, $rent_status, $payment_type, $total_driver_expense, $total_vehicle_expense, $driver_expense_type, $vehicle_expense_type, $goods_owner, $loading_time, $unloading_time, $seller_name, $payment_receiver, $loading_unloading_status) {
+    public function createBookingDetails($bookingId, $total_rent, $rent_status, $payment_type, $total_driver_expense, $total_vehicle_expense, $driver_expense_type, $vehicle_expense_type, $goods_owner, $loading_time, $unloading_time, $seller_name, $payment_receiver, $loading_unloading_status, $vehical_number) {
 
         try{
-            $stmt = $this->pdo->prepare("INSERT INTO booking_detail (bookingId, total_rent, rent_status, payment_type, total_driver_expense, total_vehicle_expense, driver_expense_type, vehicle_expense_type, goods_owner, loading_time, unloading_time, seller_name, payment_receiver, loading_unloading_status) VALUES (:bookingId, :total_rent, :rent_status, :payment_type, :total_driver_expense, :total_vehicle_expense, :driver_expense_type, :vehicle_expense_type, :goods_owner, :loading_time, :unloading_time, :seller_name, :payment_receiver, :loading_unloading_status)");
+            $stmt = $this->pdo->prepare("INSERT INTO booking_detail (bookingId, total_rent, rent_status, payment_type, total_driver_expense, total_vehicle_expense, driver_expense_type, vehicle_expense_type, goods_owner, loading_time, unloading_time, seller_name, payment_receiver, loading_unloading_status, vehical_number) VALUES (:bookingId, :total_rent, :rent_status, :payment_type, :total_driver_expense, :total_vehicle_expense, :driver_expense_type, :vehicle_expense_type, :goods_owner, :loading_time, :unloading_time, :seller_name, :payment_receiver, :loading_unloading_status, :vehical_number)");
             $stmt->execute([
                 ':bookingId' => $bookingId,
                 ':total_rent' => $total_rent,
@@ -67,7 +67,8 @@ class bhatttransportdb {
                 ':unloading_time' => $unloading_time,
                 ':seller_name' => $seller_name,
                 ':payment_receiver' => $payment_receiver,
-                ':loading_unloading_status' => $loading_unloading_status
+                ':loading_unloading_status' => $loading_unloading_status,
+                ':vehical_number' => $vehical_number
             ]);
             return $this->pdo->lastInsertId();
         }

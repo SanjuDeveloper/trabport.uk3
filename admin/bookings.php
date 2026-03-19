@@ -201,8 +201,8 @@ if(! isset($_SESSION['user'])) {
         } 
       });
     });*/
-
-    $("#createBookingForm").on("submit", function(e) {
+/*
+      $("#createBookingForm").on("submit", function(e) {
       e.preventDefault();
       Swal.fire({
         title: "Are you sure?",
@@ -235,6 +235,26 @@ if(! isset($_SESSION['user'])) {
         }
       });
     }); 
+
+*/
+  
+ 
+ $("#createBookingForm").on("submit", function(e) {
+      alert("Form submitted");
+      //alert($("#vehical_number option:selected").text());
+      $.ajax({
+            url: "config.php",
+            type: "POST",
+            data: {
+              vehical_number: $("#vehical_number option:selected").text(),
+              CheckLoadingStatus: true
+            },
+            success: function(response) {
+              console.log(response);
+              alert(response);
+            }
+          });
+        });
 
 $(document).ready(function(){
     $("#logoutLink").click(function(){
