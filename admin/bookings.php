@@ -48,11 +48,11 @@ if(! isset($_SESSION['user'])) {
         <form class="row g-3" id="createBookingForm">
             <div class="col-md-4">
               <label for="inputName" class="form-label">Customer Name:</label>
-              <input type="text" class="form-control" name="customerName" id="customerName" placeholder="Enter your name" required>
+              <input type="text" class="form-control" name="customerName" id="customerName" placeholder="Enter your name" >
             </div>
             <div class="col-md-4">
               <label for="inputName" class="form-label">Driver Name:</label>
-              <input type="text" class="form-control" name="driverName" id="driverName" placeholder="Enter driver's name" required>
+              <input type="text" class="form-control" name="driverName" id="driverName" placeholder="Enter driver's name" >
             </div>
             <div class="col-md-4">
               <label for="inputName" class="form-label">vehical Number:</label>
@@ -64,29 +64,29 @@ if(! isset($_SESSION['user'])) {
             </div>
              <div class="col-md-4">
               <label for="route" class="form-label">Route:</label>
-              <input type="text" class="form-control" name="route" id="route" placeholder="Enter your route" required>
+              <input type="text" class="form-control" name="route" id="route" placeholder="Enter your route" >
             </div>
             
 
             <div class="col-md-4">
             <label for="bookingDate" class="form-label">Booking Date:</label>
-            <input type="datetime-local" class="form-control" name="bookingDate" id="bookingDate" value="<?php echo date("Y-m-d\TH:i"); ?>" required>
+            <input type="datetime-local" class="form-control" name="bookingDate" id="bookingDate" value="<?php echo date("Y-m-d\TH:i"); ?>" >
             </div>
             <div class="col-md-4">
             <label for="inputCity" class="form-label">Rate</label>
-            <input type="text" class="form-control" name="rate" id="rate" placeholder="enter rate" required>
+            <input type="text" class="form-control" name="rate" id="rate" placeholder="enter rate" >
             </div>
             <div class="col-md-4">
             <label for="kuntal" class="form-label">Kuntal</label>
-            <input type="text" class="form-control" name="kuntal" id="kuntal" placeholder="150" required>
+            <input type="text" class="form-control" name="kuntal" id="kuntal" placeholder="150" >
             </div>
             <div class="col-md-4">
             <label for="bhada" class="form-label">Bhada</label>
-            <input type="text" class="form-control" name="bhada" id="bhada" placeholder="10500" required>
+            <input type="text" class="form-control" name="bhada" id="bhada" placeholder="10500" >
             </div>
              <div class="col-md-4">
             <label for="total_rent" class="form-label">Total Rent</label>
-            <input type="text" class="form-control" name="total_rent" id="total_rent" placeholder="105" required>
+            <input type="text" class="form-control" name="total_rent" id="total_rent" placeholder="105" >
             </div>
              <div class="col-md-4">
             <label for="rent_status" class="form-label">Rent Status</label>
@@ -130,11 +130,11 @@ if(! isset($_SESSION['user'])) {
             </div>
             <div class="col-md-4">
             <label for="loading_time" class="form-label">Loading Time</label>
-            <input type="datetime-local" class="form-control" name="loading_time" id="loading_time" value="<?php echo date("Y-m-d\TH:i"); ?>" required>
+            <input type="datetime-local" class="form-control" name="loading_time" id="loading_time" value="<?php echo date("Y-m-d\TH:i"); ?>" >
             </div>
             <div class="col-md-4">
             <label for="unloading_time" class="form-label">Unloading Time</label>
-            <input type="datetime-local" class="form-control" name="unloading_time" id="unloading_time" value="<?php echo date("Y-m-d\TH:i"); ?>" required>
+            <input type="datetime-local" class="form-control" name="unloading_time" id="unloading_time" value="<?php echo date("Y-m-d\TH:i"); ?>" >
             </div>
             <div class="col-md-4">
             <label for="seller_name" class="form-label">Seller Name</label>
@@ -191,30 +191,47 @@ if(! isset($_SESSION['user'])) {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
   <script>
+    /*
     $(document).ready(function(){
       $("#Payment_type").on("change", function(){
         if ($("#Payment_type option:selected").text() == "Cash") {
          $("#OpenModal").click();
         } 
       });
-    });
+    });*/
 
     $("#createBookingForm").on("submit", function(e) {
-      alert("form submitted");
       e.preventDefault();
-      $.ajax({
-        url: "config.php",
-        type: "POST",
-        data: $(this).serialize(),
-        success: function(response) {
-          if(response.trim() === "success") {
-            alert("Booking created successfully!");
-            // Redirect to admin dashboard or another page
-            window.location.href = "dashboard.php"; // Change to your dashboard page
-          } else {
-            alert("Error creating booking: " + response);
-          }
+      Swal.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes, delete it!"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          $.ajax({
+            url: "config.php",
+            type: "POST",
+            data: $(this).serialize(),
+            success: function(response) {
+              if(response.trim() === "success") {
+                Swal.fire({
+                  title: "Created!",
+                  text: "Booking has been created.",
+                  icon: "success"
+                });
+                // Redirect to admin dashboard or another page
+                window.location.href = "dashboard.php"; // Change to your dashboard page
+              } else {
+                alert("Error creating booking: " + response);
+              }
+            }
+          });
         }
       });
     }); 
