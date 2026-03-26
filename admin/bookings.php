@@ -1,47 +1,7 @@
-<?php
-if(! isset($_SESSION['user'])) {
-   //   header("Location: login.php");
-  } // Check if session is created, if not redirect to login
+<?php 
+include 'Header.php';
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Transport Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-  <style>
-    body { font-family: Arial, sans-serif; margin:0; background:#f4f4f4; }
-    .sidebar { width:200px; background:#333; color:#fff; height:100vh; float:left; }
-    .sidebar a { display:block; padding:15px; color:#fff; text-decoration:none; }
-    .sidebar a:hover { background:#444; }
-    .main { margin-left:200px; padding:20px; }
-    .card { background:#fff; padding:20px; margin:10px; display:inline-block; width:200px; box-shadow:0 2px 5px rgba(0,0,0,0.1); }
-    table { width:100%; border-collapse:collapse; margin-top:20px; }
-    table, th, td { border:1px solid #ccc; }
-    th, td { padding:10px; text-align:left; }
-  </style>
-
-</head>
-<body>
-  <div class="sidebar">
-    <h2><a href="../index.php">Transport</a></h2>
-    <a href="dashboard.php">Dashboard</a>
-    <a href="bookings.php">Bookings</a>
-    <a href="#">Vehicles</a>
-    <a href="#">Drivers</a>
-    <a href="#">Routes</a>
-    <a href="#">Reports</a>
-    <a href="#">Settings</a>
-    <a href="#" id="logoutLink">logout</a>
-  </div>
-  
-  <div class="main">
+<div class="main">
         <div class="container mt-5">
         <!-- Form Section -->
         <h2 class="mb-4">Create Booking</h2>
@@ -130,11 +90,12 @@ if(! isset($_SESSION['user'])) {
             </div>
             <div class="col-md-4">
             <label for="loading_time" class="form-label">Loading Time</label>
-            <input type="datetime-local" class="form-control" name="loading_time" id="loading_time" value="<?php echo date("Y-m-d\TH:i"); ?>" >
+            <input type="datetime-local" class="form-control" name="loading_time" id="loading_time" placeholder="Enter loading time">
+
             </div>
             <div class="col-md-4">
             <label for="unloading_time" class="form-label">Unloading Time</label>
-            <input type="datetime-local" class="form-control" name="unloading_time" id="unloading_time" value="<?php echo date("Y-m-d\TH:i"); ?>" >
+            <input type="datetime-local" class="form-control" name="unloading_time" id="unloading_time" placeholder="Enter unloading time">
             </div>
             <div class="col-md-4">
             <label for="seller_name" class="form-label">Seller Name</label>
@@ -152,6 +113,11 @@ if(! isset($_SESSION['user'])) {
             <option value="Unloading">Unloading</option>
             </select>
             </div>
+              <div class="col-12">
+              <input type="hidden" value="type" name="check_loading_status" id="check_loading_status">  
+
+            </div>
+           
             <div class="col-12">
               <input type="hidden" value="CreateBooking" name="booking" id="booking">  
             <button type="submit" class="btn btn-primary">Create</button>
@@ -180,98 +146,7 @@ if(! isset($_SESSION['user'])) {
       
     </div>
   </div>
-  
 </div>
-</body>
-</html>
-<!-- Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-
-  <script>
-    /*
-    $(document).ready(function(){
-      $("#Payment_type").on("change", function(){
-        if ($("#Payment_type option:selected").text() == "Cash") {
-         $("#OpenModal").click();
-        } 
-      });
-    });*/
-/*
-      $("#createBookingForm").on("submit", function(e) {
-      e.preventDefault();
-      Swal.fire({
-        title: "Are you sure?",
-        text: "You won't be able to revert this!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes, delete it!"
-      }).then((result) => {
-        if (result.isConfirmed) {
-          $.ajax({
-            url: "config.php",
-            type: "POST",
-            data: $(this).serialize(),
-            success: function(response) {
-              if(response.trim() === "success") {
-                Swal.fire({
-                  title: "Created!",
-                  text: "Booking has been created.",
-                  icon: "success"
-                });
-                // Redirect to admin dashboard or another page
-                window.location.href = "dashboard.php"; // Change to your dashboard page
-              } else {
-                alert("Error creating booking: " + response);
-              }
-            }
-          });
-        }
-      });
-    }); 
-
-*/
-  
- 
- $("#createBookingForm").on("submit", function(e) {
-      alert("Form submitted");
-      //alert($("#vehical_number option:selected").text());
-      $.ajax({
-            url: "config.php",
-            type: "POST",
-            data: {
-              vehical_number: $("#vehical_number option:selected").text(),
-              CheckLoadingStatus: true
-            },
-            success: function(response) {
-              console.log(response);
-              alert(response);
-            }
-          });
-        });
-
-$(document).ready(function(){
-    $("#logoutLink").click(function(){
-        $.ajax({
-            url: "config.php",
-            type: "GET",
-            data: { logout: "TRUE" },
-            success: function(response){
-                alert("Logged out successfully!");
-                window.location.href = "login.php"; // Redirect to login page after logout
-            },
-            error: function(){
-                alert("Error sending data");
-            }
-        });
-    });
-});
-  </script>
-</body>
-</html>
+<?php
+include 'Footer.php'; 
+?>

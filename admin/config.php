@@ -22,7 +22,10 @@ if(isset($_REQUEST['AdminLogin']) && $_REQUEST['AdminLogin'] == 'ADMIN_LOGIN'){
 
 // Handle booking form
 if (isset($_POST['booking']) && $_POST['booking'] == 'CreateBooking') {
-    //print_r($_REQUEST);
+    echo "<pre>";
+    echo "This is the request data: ";
+    print_r($_REQUEST);
+    echo "</pre>";
     $customerName   = $_POST['customerName'];
     $driverName   = $_POST['driverName'];
     $vehical_number  = $_POST['vehical_number'];
@@ -46,12 +49,16 @@ if (isset($_POST['booking']) && $_POST['booking'] == 'CreateBooking') {
     $payment_receiver = $_POST['payment_receiver'];
     $loading_unloading_status = $_POST['loading_unloading_status'];
     $vehical_number = $_POST['vehical_number'];
-
-    $bookingID =  $createBooking = $db->createBooking($customerName, $driverName, $vehical_number, $route, $rate, $kuntal, $bhada, $date);
-    if ($bookingID != null) {
-        // insert data in bookingdetails table.
-        $createBookingDetail = $db->createBookingDetails($bookingID, $rent, $status, $payment,$driver_expense, $vehicle_expense, $driver_expense_type, $vehicle_expense_type, $goods_owner, $loading_time, $unloading_time, $seller_name, $payment_receiver, $loading_unloading_status, $vehical_number);
-        echo "success";
+    $check_loading_status = $_POST['check_loading_status']; 
+    if($check_loading_status == "UnLoaded"){
+        $bookingID =  $createBooking = $db->createBooking($customerName, $driverName, $vehical_number, $route, $rate, $kuntal, $bhada, $date);
+        if ($bookingID != null) {
+            // insert data in bookingdetails table.
+            $createBookingDetail = $db->createBookingDetails($bookingID, $rent, $status, $payment,$driver_expense, $vehicle_expense, $driver_expense_type, $vehicle_expense_type, $goods_owner, $loading_time, $unloading_time, $seller_name, $payment_receiver, $loading_unloading_status, $vehical_number);
+            echo "success";
+        }
+    }else{
+        echo "Vehicle is currently loaded. Cannot create a new booking until it is unloaded.";
     }
 }
 
@@ -63,11 +70,10 @@ if (isset($_GET['logout']) && $_GET['logout'] == 'TRUE') {
 }
 
 if (isset($_POST['CheckLoadingStatus'])) {
-
     $loadingStatus = bhatttransportdb::getBookings("SELECT * FROM booking_detail WHERE loading_unloading_status = 'Loading' and vehical_number = '".$_POST['vehical_number']."'");
-    if(! empty($loadingStatus)){
-        echo "failed";
-    } else {
-        echo "Success";
+    if(empty($loadingStatus)){
+        echo "Unloaded";
+    } else {    
+        echo "Loaded";
     }
 }
