@@ -17,8 +17,7 @@ include 'Header.php';
             <div class="col-md-4">
               <label for="inputName" class="form-label">vehical Number:</label>
               <select class="form-select" name="vehical_number" id="vehical_number">
-                <option selected disabled>-- select vehical number --</option>
-                <option value="UK05CA1508">UK05CA1508</option>
+                <option value="UK05CA1508" selected>UK05CA1508</option>
                 <option value="UK03CA1839">UK03CA1839</option>
               </select>
             </div>
@@ -51,8 +50,7 @@ include 'Header.php';
              <div class="col-md-4">
             <label for="rent_status" class="form-label">Rent Status</label>
             <select class="form-select" name="rent_status" id="rent_status">
-             <option selected disabled>-- select  rent status--</option>  
-            <option value="paid">paid</option>
+            <option value="paid" selected>paid</option>
             <option value="unpaid">- Unpaid</option>
             </select>
                       </div>
@@ -60,8 +58,7 @@ include 'Header.php';
                 <div class="col-md-4">
             <label for="Payment_type" class="form-label">Payment type</label>
             <select class="form-select" name="Payment_type" id="Payment_type">
-             <option selected disabled>-- select  payment type--</option>  
-            <option value="Cash">Cash</option>
+            <option value="Cash" selected>Cash</option>
             <option value="Mobile Payment">Mobile Payment</option>
             </select>
             </div>
@@ -108,13 +105,12 @@ include 'Header.php';
              <div class="col-md-4">
              <label for="loading_unloading_status" class="form-label">Loading/Unloading Status</label>
             <select class="form-select" name="loading_unloading_status" id="loading_unloading_status">
-             <option selected disabled>-- select  status type--</option>  
-            <option value="Loading">Loading</option>
+            <option value="Loading" selecteds>Loading</option>
             <option value="Unloading">Unloading</option>
             </select>
             </div>
               <div class="col-12">
-              <input type="hidden" value="type" name="check_loading_status" id="check_loading_status">  
+              <input type="text" value="type" name="check_loading_status" id="check_loading_status">  
 
             </div>
            
@@ -126,26 +122,7 @@ include 'Header.php';
 
         
         </div>
-        <!-- Modal -->
-  <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">Modal Header</h4>
-        </div>
-        <div class="modal-body">
-          <input type="text" class="form-control" name="payment_receiver" id="payment_receiver" placeholder="Enter Payment Receiver Name">
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-      
     </div>
-  </div>
 </div>
 <?php
 include 'Footer.php'; 

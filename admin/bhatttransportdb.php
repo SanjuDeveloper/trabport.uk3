@@ -28,8 +28,7 @@ class bhatttransportdb {
 
     // Insert data into table
     public function createBooking($customerName, $driverName, $vehical_number, $route, $rate, $kuntal, $bhada, $bookingDate) {
-        echo "INSERT INTO bookings (customerName, driverName, vehical_number, route, rate, kuntal, bhada, bookingDate) VALUES (:customerName, :driverName, :vehical_number, :route, :rate, :kuntal, :bhada, :bookingDate)";
-        try{
+                try{
             $stmt = $this->pdo->prepare("INSERT INTO bookings (customerName, driverName, vehical_number, route, rate, kuntal, bhada, bookingDate) VALUES (:customerName, :driverName, :vehical_number, :route, :rate, :kuntal, :bhada, :bookingDate)");
             // Bind values
             $stmt->execute([
@@ -51,8 +50,7 @@ class bhatttransportdb {
 
 // Insert data into table
     public function createBookingDetails($bookingId, $total_rent, $rent_status, $payment_type, $total_driver_expense, $total_vehicle_expense, $driver_expense_type, $vehicle_expense_type, $goods_owner, $loading_time, $unloading_time, $seller_name, $payment_receiver, $loading_unloading_status, $vehical_number) {
-        echo "INSERT INTO booking_detail (bookingId, total_rent, rent_status, payment_type, total_driver_expense, total_vehicle_expense, driver_expense_type, vehicle_expense_type, goods_owner, loading_time, unloading_time, seller_name, payment_receiver, loading_unloading_status, vehical_number) VALUES (:bookingId, :total_rent, :rent_status, :payment_type, :total_driver_expense, :total_vehicle_expense, :driver_expense_type, :vehicle_expense_type, :goods_owner, :loading_time, :unloading_time, :seller_name, :payment_receiver, :loading_unloading_status, :vehical_number)";
-        try{
+             try{
             $stmt = $this->pdo->prepare("INSERT INTO booking_detail (bookingId, total_rent, rent_status, payment_type, total_driver_expense, total_vehicle_expense, driver_expense_type, vehicle_expense_type, goods_owner, loading_time, unloading_time, seller_name, payment_receiver, loading_unloading_status, vehical_number) VALUES (:bookingId, :total_rent, :rent_status, :payment_type, :total_driver_expense, :total_vehicle_expense, :driver_expense_type, :vehicle_expense_type, :goods_owner, :loading_time, :unloading_time, :seller_name, :payment_receiver, :loading_unloading_status, :vehical_number)");
             $stmt->execute([
                 ':bookingId' => $bookingId,

@@ -22,10 +22,10 @@ if(isset($_REQUEST['AdminLogin']) && $_REQUEST['AdminLogin'] == 'ADMIN_LOGIN'){
 
 // Handle booking form
 if (isset($_POST['booking']) && $_POST['booking'] == 'CreateBooking') {
-    echo "<pre>";
-    echo "This is the request data: ";
-    print_r($_REQUEST);
-    echo "</pre>";
+    // echo "<pre>";
+    // echo "This is the request data: ";
+    // print_r($_REQUEST);
+    // echo "</pre>";
     $customerName   = $_POST['customerName'];
     $driverName   = $_POST['driverName'];
     $vehical_number  = $_POST['vehical_number'];
@@ -50,15 +50,15 @@ if (isset($_POST['booking']) && $_POST['booking'] == 'CreateBooking') {
     $loading_unloading_status = $_POST['loading_unloading_status'];
     $vehical_number = $_POST['vehical_number'];
     $check_loading_status = $_POST['check_loading_status']; 
-    if($check_loading_status == "UnLoaded"){
+    if($check_loading_status == "Unloaded"){
         $bookingID =  $createBooking = $db->createBooking($customerName, $driverName, $vehical_number, $route, $rate, $kuntal, $bhada, $date);
         if ($bookingID != null) {
             // insert data in bookingdetails table.
             $createBookingDetail = $db->createBookingDetails($bookingID, $rent, $status, $payment,$driver_expense, $vehicle_expense, $driver_expense_type, $vehicle_expense_type, $goods_owner, $loading_time, $unloading_time, $seller_name, $payment_receiver, $loading_unloading_status, $vehical_number);
             echo "success";
         }
-    }else{
-        echo "Vehicle is currently loaded. Cannot create a new booking until it is unloaded.";
+    } else {
+        echo "Vehicle is currently loaded. Cannot create a new booking until it is unloaded." . $check_loading_status;
     }
 }
 
