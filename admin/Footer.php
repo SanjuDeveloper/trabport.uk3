@@ -28,9 +28,26 @@ $("#createBookingForm").on("submit", function(e) {
       });
     });
 
-
-
-
+   // Delete booking
+   $(".btn-danger").on("click", function() {
+       const bookingId = $(this).closest("tr").find("th").text();
+       alert( bookingId);
+       if (confirm("Are you sure you want to delete this booking?")) {
+           $.ajax({
+               url: "config.php",
+               type: "POST",
+               data: { action: "deleteBooking", id: bookingId },
+               success: function(response) {
+                   if (response.trim() === "success") {
+                       alert("Booking deleted successfully!");
+                       location.reload(); // Reload the page to see the changes
+                   } else {
+                       alert("Error deleting booking: " + response);
+                   }
+               }
+           });
+       }
+   });
 
     /*
     $("#createBookingForm").on("submit", function(e) {

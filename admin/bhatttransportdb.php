@@ -84,14 +84,25 @@ class bhatttransportdb {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
            // return $stmt->fetchAll();
-    } catch (PDOException $e) {
-        echo "Error: " . $e->getMessage();
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
     }
-}
 
 // Close connection
     public function __destruct() {
         $this->pdo = null;
     }
+
+    public function deleteBooking($query) {
+        try {
+            $stmt = $this->pdo->prepare($query);
+            return $stmt->execute();
+        } catch (PDOException $e) {
+            echo "Error deleting booking: " . $e->getMessage();
+            return false;
+        }
+    }
+
+
 }
-?>

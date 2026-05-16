@@ -77,3 +77,12 @@ if (isset($_POST['CheckLoadingStatus'])) {
         echo "Loaded";
     }
 }
+if (isset($_POST['action']) && $_POST['action'] == 'deleteBooking') {
+    $bookingId = $_POST['id'];
+   $isDelete =  $db->deleteBooking("DELETE FROM bookings WHERE id = $bookingId");
+   if($isDelete){
+       echo "success";
+   } else {
+       echo "error" . $isDelete;
+   }
+}

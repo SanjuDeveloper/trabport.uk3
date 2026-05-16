@@ -21,6 +21,7 @@ include 'Header.php';
                 <th scope="col">Kuntal</th>
                 <th scope="col">Bhada</th>
                 <th scope="col">Status</th>
+                <th scope="col">Action</th>
             </tr>
             </thead>
        <tbody>
@@ -32,14 +33,15 @@ include 'Header.php';
               foreach($bookings as $booking) { ?>
                   <tr>
                       <th scope='row'><?php echo $booking['id']; ?></th>
-                      <td><a href="booking_details.php?id=<?php echo $booking['id']; ?>"><?php echo $booking['customerName']; ?></a></td>
+                      <td><a href="updateBooking.php?id=<?php echo $booking['id']; ?>"><?php echo $booking['customerName']; ?></a></td>
                       <td><?php echo $booking['route']; ?></td>
                       <td><?php echo $booking['rate']; ?></td>
                       <td><?php echo $booking['kuntal']; ?></td>
                       <td><?php echo $booking['bhada']; ?></td>
                       <td><?php echo $booking['bookingDate']; ?></td>
                       <td><input  class="btn btn-success" type="button" value="<?php echo $booking['status']; ?>"></td>
-                      
+                      <td><input  class="btn btn-danger" type="button" value="Delete" id="delete" onclick=""></td>
+
                   </tr>
               <?php }
               } else {
